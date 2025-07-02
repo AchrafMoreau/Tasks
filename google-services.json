@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "689468030110",
+    "project_id": "nativeapp-60f6a",
+    "storage_bucket": "nativeapp-60f6a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689468030110:android:04239544763656ae61cf8f",
+        "android_client_info": {
+          "package_name": "com.firebase.chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYal5czyxKkkR4h12V6Pg039HCJplFeyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
