@@ -1,16 +1,18 @@
 import images from "@/assets/images";
 import { auth } from "@/FirebaseConfig";
+import { useAuth } from "@/providers/AuthProvider";
 import signInWithFacebook from "@/providers/SignInWithFacebook";
 import { useGoogleSignIn } from "@/providers/SignWithGoogle";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { Link, useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignIn = () => {
   const router = useRouter();
   const { promptAsync } = useGoogleSignIn();
+  const { user } = useAuth();
   const [value, setValue] = useState({
     email: "",
     password: ""
@@ -20,6 +22,7 @@ const SignIn = () => {
     try {
       const user = await signInWithEmailAndPassword(auth, value.email, value.password);
       if (user) router.push("/");
+
 
     } catch (err) {
       console.log(err)
@@ -62,7 +65,7 @@ const SignIn = () => {
 
           <View className="flex items-center justify-center">
             <TouchableOpacity
-              className="flex-row items-center bg-white p-4 rounded-lg mb-2 shadow-sm w-full justify-center"
+              className="flex-row items-center bg-white p-4 rounded-full mb-2 shadow-sm w-full justify-center"
               onPress={() => promptAsync()}
             >
               <Image
@@ -72,7 +75,7 @@ const SignIn = () => {
               <Text className="text-base">Continue with Google</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="flex-row items-center bg-[#1877F2] p-4 rounded-lg shadow-sm w-full justify-center"
+              className="flex-row items-center bg-[#1877F2] p-4 rounded-full shadow-sm w-full justify-center"
               onPress={signInWithFacebook}
             >
               <Image

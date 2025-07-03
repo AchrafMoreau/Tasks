@@ -1,18 +1,11 @@
 import { auth } from "@/FirebaseConfig";
-import {  Stack, useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useAuth } from "@/providers/AuthProvider";
 
 
 export default function Layout(){
-
-  const router = useRouter()
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if(user){
-        router.push("/");
-      }
-    })
-  }, [])
 
   return(
     <Stack>

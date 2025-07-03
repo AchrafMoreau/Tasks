@@ -2,25 +2,35 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Redirect, Tabs, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { auth } from "@/FirebaseConfig";
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import UserDropdown from '@/components/UserDropdown';
+import { getAuth, onAuthStateChanged } from '@firebase/auth';
+import { app } from '@/FirebaseConfig';
+import { useAuth } from "@/providers/AuthProvider";
 
 export default function TabLayout() {
 
   const router = useRouter()
-  const user = auth.currentUser;
+
+  const { user, authLoading } = useAuth();
+
+  console.log(user, authLoading)
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        router.push('/signIn')
-      }
-    })
-  }, [])
+    if (!user && !authLoading) {
+      router.push("/signIn");
+    }
+  }, [authLoading, user])
 
-  if (!user) {
-    return <View />
+  if (authLoading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text>Loading...</Text>
+      </View>
+    )
   }
+
+
   return (
 
     <Tabs

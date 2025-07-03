@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth } from '@/FirebaseConfig';
+import { getAuth, onAuthStateChanged } from '@firebase/auth';
+import { app } from '@/FirebaseConfig';
 
 type User = {
   uid: string;
@@ -10,25 +11,30 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
+  authLoading: boolean;
   signOut: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  authLoading: true,
   signOut: async () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const auth = getAuth(app);
   const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user ? {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName,
         photoURL: user.photoURL,
       } : null);
+      setAuthLoading(false)
     });
 
     return unsubscribe;
@@ -43,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signOut }}>
+    <AuthContext.Provider value={{ user, signOut, authLoading }}>
       {children}
     </AuthContext.Provider>
   );

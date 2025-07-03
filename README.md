@@ -12,11 +12,17 @@ The goal is to explore authentication, UI styling with NativeWind, and integrati
 - [x] Implement login screen
 - [x] Implement create account screen
 - [x] Email/password authentication via Firebase  
-- [x] Add authentication providers (Google, Facebook, etc.) — _in progress_
+- [X] fix auth problem
+    - fix problem of redirect after sign in and not allowed to go back after you do sign in to login page
       ⤷ _Currently facing an issue here..._
+- [X] init firestore
+    - add some structers like a provider and a hook for tasks
+- [X] - ui for task
+- [X] - link the userId with user table
 - [ ] Connect and sync with **Firestore** database
 - [ ] Design and implement **Tasks** screen
 - [ ] Add **CRUD operations** for tasks
+- [ ] Add authentication providers (Google, Facebook, etc.) 
 
 ---
 
@@ -45,3 +51,10 @@ This project is actively being improved as I learn more. If you're viewing this 
 ---
 
 ## 📂 Screenshots & Demo (Coming soon)
+
+
+
+
+
+
+
