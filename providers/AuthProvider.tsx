@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged } from '@firebase/auth';
-import { app } from '@/FirebaseConfig';
+import { onAuthStateChanged } from '@firebase/auth';
+import { auth } from '@/FirebaseConfig';
 
 type User = {
   uid: string;
@@ -18,26 +18,25 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   authLoading: true,
-  signOut: async () => {},
+  signOut: async () => { },
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const auth = getAuth(app);
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user ? {
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      setUser(firebaseUser ? {
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        displayName: firebaseUser.displayName,
+        photoURL: firebaseUser.photoURL,
       } : null);
       setAuthLoading(false)
     });
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   const signOut = async () => {

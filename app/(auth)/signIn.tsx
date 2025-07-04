@@ -12,7 +12,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const SignIn = () => {
   const router = useRouter();
   const { promptAsync } = useGoogleSignIn();
-  const { user } = useAuth();
   const [value, setValue] = useState({
     email: "",
     password: ""
@@ -22,8 +21,6 @@ const SignIn = () => {
     try {
       const user = await signInWithEmailAndPassword(auth, value.email, value.password);
       if (user) router.push("/");
-
-
     } catch (err) {
       console.log(err)
       alert("Sign in Faild " + err?.message)
