@@ -1,4 +1,4 @@
-import {  db } from "@/FirebaseConfig";
+import { db } from "@/FirebaseConfig";
 
 import { Task } from "@/models/Task";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, Query, serverTimestamp, updateDoc, where } from "firebase/firestore";
@@ -12,15 +12,19 @@ const createTask = async (task: Task) => {
       createdAt: serverTimestamp(),
       ...task
     });
-  }catch(err){
+  } catch (err) {
     console.log(err);
   }
 }
 
-const getAllTask = async (id: string|undefined): Promise<Task[]> => {
+const getAllTask = async (id: string | undefined): Promise<Task[]> => {
   console.log(id)
-  const q = query(taskCollection, where("userId", "==", id), orderBy("createdAt", "desc"));
+  const q = query(taskCollection,
+    where("userId", "==", id),
+    orderBy("createdAt", "desc")
+  );
   const data = await getDocs(q);
+  console.log(data)
   return data.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
@@ -33,6 +37,19 @@ const updateTask = async (id: string, data: Partial<Task>) => {
 }
 
 const deleteTask = async (id: string) => {
+  await fetch('https://app.nativenotify.com/api/indie/notification', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      appId: 31088,
+      appToken: "fUVea49dd40gSfQbtcmb1U",
+      title: "Push title here as a string",
+      body: "Push message here as a string",
+      dateSent: "7-4-2025 10:50PM"
+    }),
+  });
   return await deleteDoc(doc(db, "tasks", id));
 }
 

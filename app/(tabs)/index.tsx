@@ -4,6 +4,7 @@ import { Task } from '@/models/Task';
 import { useAuth } from '@/providers/AuthProvider';
 import { createTask, deleteTask, getAllTask, updateTask } from '@/services/TaskServices';
 import { useState } from 'react';
+import registerNNPushToken from 'native-notify';
 import {
   View,
   Text,
@@ -17,6 +18,8 @@ import {
 } from 'react-native';
 
 const TaskScreen = () => {
+  // registerNNPushToken(31088, 'fUVea49dd40gSfQbtcmb1U');
+  const google_token_key = "25b0243e4edf4a707a1a9c0fa1b034f9e24878e5";
   const [taskText, setTaskText] = useState('');
   const [createLoading, setCreateLoading] = useState(false);
   const { user } = useAuth()
@@ -60,7 +63,6 @@ const TaskScreen = () => {
     }catch(err){
       console.log(err)
     }
-
   }
 
   return (

@@ -6,11 +6,11 @@ import UserIconDropdown from "@/components/UserDropdown";
 
 export default function TabLayout() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, authLoading } = useAuth();
 
   useEffect(() => {
     setTimeout(() => {
-      if (!user) {
+      if (!user && !authLoading) {
         return router.push("/signIn");
       }
     }, 500)
